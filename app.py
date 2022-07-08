@@ -15,6 +15,23 @@ setup_db(app)
 #db_drop_and_create_all()
 CORS(app)
 
+API_AUDIENCE = os.environ.get('API_AUDIENCE')
+AUTH0_DOMAIN = os.environ.get('AUTH0_DOMAIN')
+AUTH0_CLIENT_ID = os.environ.get('API_AUDIENCE')
+AUTH0_CALLBACK_URL = os.environ.get('API_AUDIENCE')
+
+
+@app.route("/authorization/url", methods=["GET"])
+def generate_auth_url():
+  url = f'https://{AUTH0_DOMAIN}/authorize' \
+  f'?audience={API_AUDIENCE}' \
+  f'&response_type=token&client_id=' \
+  f'{AUTH0_CLIENT_ID}&redirect_uri=' \
+  f'{AUTH0_CALLBACK_URL}'
+  return jsonify({
+    'url': url
+  })
+
 ##ACTORS
 
 #GET /actors
