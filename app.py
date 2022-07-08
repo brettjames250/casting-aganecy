@@ -20,6 +20,12 @@ AUTH0_DOMAIN = os.environ.get('AUTH0_DOMAIN')
 AUTH0_CLIENT_ID = os.environ.get('AUTH0_CLIENT_ID')
 AUTH0_CALLBACK_URL = os.environ.get('AUTH0_CALLBACK_URL')
 
+@app.after_request
+def after_request(response):
+  response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization,true')
+  response.headers.add('Access-Control-Allow-Methods', 'GET,PATCH,POST,DELETE,OPTIONS')
+  return response
+
 
 @app.route("/authorization/url", methods=["GET"])
 def generate_auth_url():
