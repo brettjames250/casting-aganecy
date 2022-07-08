@@ -50,6 +50,7 @@ def delete_actor(actor_id):
   
 #POST /actors
 @app.route("/actors", methods=["POST"])
+@requires_auth('post: actors')
 def add_actor():
   request_data = request.get_json()
   
@@ -84,6 +85,7 @@ def add_actor():
   
 #PATCH /actors/{id}
 @app.route("/actors/<int:actor_id>", methods=["PATCH"])
+@requires_auth('patch: actors')
 def update_actor(actor_id):
   actor = Actor.query.get(actor_id)
   
@@ -128,6 +130,7 @@ def get_movies():
   
 #DELETE /movies/{id}
 @app.route("/movies/<int:movie_id>", methods=["DELETE"])
+@requires_auth('delete: movies')
 def delete_movie(movie_id):
   movie = Movie.query.get(movie_id)
   
@@ -143,6 +146,7 @@ def delete_movie(movie_id):
 
 #POST /movies
 @app.route("/movies", methods=["POST"])
+@requires_auth('post: movies')
 def add_movie():
   request_data = request.get_json()
   
@@ -175,6 +179,7 @@ def add_movie():
   
 #PATCH /movies/{id}
 @app.route("/movies/<int:movie_id>", methods=["PATCH"])
+@requires_auth('patch: movies')
 def update_movie(movie_id):
   movie = Movie.query.get(movie_id)
   
