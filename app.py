@@ -3,6 +3,7 @@ from flask import Flask, request, abort, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from models import Actor, Movie, setup_db, db_drop_and_create_all
+from auth import requires_auth
 
 # ----------------------------------------------------------------------------#
 # App Config.
@@ -32,6 +33,7 @@ def get_actors():
   
 #DELETE /actors/{id}
 @app.route("/actors/<int:actor_id>", methods=["DELETE"])
+@requires_auth('delete: actors')
 def delete_actor(actor_id):
   actor = Actor.query.get(actor_id)
   
