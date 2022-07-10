@@ -214,11 +214,11 @@ class UnitTestCase(unittest.TestCase):
     def test_assistant_invalid_auth(self):
         res = self.client().post("/actors", headers=generate_auth_header(ASSISTANT_TOKEN), json=self.test_actor)
         data = json.loads(res.data)
-        self.assertEqual(res.status_code, 200)
+        self.assertEqual(res.status_code, 403)
         
         res = self.client().delete("/actors/1", headers=generate_auth_header(ASSISTANT_TOKEN))
         data = json.loads(res.data)
-        self.assertEqual(res.status_code, 200)
+        self.assertEqual(res.status_code, 403)
         
     
     def test_director_valid_auth(self):
@@ -228,18 +228,13 @@ class UnitTestCase(unittest.TestCase):
         res = self.client().delete("/actors/1", headers=generate_auth_header(DIRECTOR_TOKEN))
         data = json.loads(res.data)
         self.assertEqual(res.status_code, 200)
-      
-    def test_director_invalid_auth(self):
-        res = self.client().post("/movies", headers=generate_auth_header(DIRECTOR_TOKEN), json=self.test_movie)
-        data = json.loads(res.data)
-        
-        self.assertEqual(res.status_code, 200)
+    
         
     def test_producer_valid_auth(self):
-        res = self.client().post("/movies", headers=generate_auth_header(DIRECTOR_TOKEN), json=self.test_movie)
+        res = self.client().post("/movies", headers=generate_auth_header(PRODUCER_TOKEN), json=self.test_movie)
         data = json.loads(res.data)
         self.assertEqual(res.status_code, 200)
-        res = self.client().delete("/movies/1", headers=generate_auth_header(DIRECTOR_TOKEN))
+        res = self.client().delete("/movies/1", headers=generate_auth_header(PRODUCER_TOKEN))
         data = json.loads(res.data)
         self.assertEqual(res.status_code, 200)
         
