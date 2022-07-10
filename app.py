@@ -57,9 +57,8 @@ def create_app(test_config=None):
     })
     
   #TEST AUTH
-  @app.route("/test", methods=["POST"])
-  @requires_auth('post:test')
-  def test(payload): 
+  @app.route("/test", methods=["GET"])
+  def test(): 
     return jsonify({
       "success": "is this working",
     })
@@ -247,7 +246,7 @@ def create_app(test_config=None):
   
   @app.errorhandler(AuthError)
   def handle_auth_error(e):
-    return jsonify({"success": False, "error": e.error['code'], "message": e.error['description'],}), e.status_code
+    return jsonify({"success": False, "error": e.status_code, "message": e.error['description'],}), e.status_code
   
     
   return app
