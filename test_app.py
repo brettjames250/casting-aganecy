@@ -221,24 +221,25 @@ class UnitTestCase(unittest.TestCase):
         
     
     def director_valid_auth():
-        res = self.client().post("/actors", headers=generate_auth_header(DIRECTOR_TOKEN), json=self.test_actor)
+        res = self.client().post("/actors", headers=generate_auth_header(INVALID_TOKEN), json=self.test_actor)
         data = json.loads(res.data)
         self.assertEqual(res.status_code, 200)
-        res = self.client().delete("/actors/1", headers=generate_auth_header(DIRECTOR_TOKEN))
+        res = self.client().delete("/actors/1", headers=generate_auth_header(INVALID_TOKEN))
         data = json.loads(res.data)
         self.assertEqual(res.status_code, 200)
         
-        res = self.client().post("/movies", headers=generate_auth_header(DIRECTOR_TOKEN), json=self.test_movie)
+        res = self.client().post("/movies", headers=generate_auth_header(INVALID_TOKEN), json=self.test_movie)
         data = json.loads(res.data)
         self.assertEqual(res.status_code, 200)
-        res = self.client().delete("/movies/1", headers=generate_auth_header(PRODUCER_TOKEN))
+        res = self.client().delete("/movies/1", headers=generate_auth_header(INVALID_TOKEN))
         data = json.loads(res.data)
+        self.assertEqual(res.status_code, 200)
         
     # def director_invalid_auth():
     
     # def producer_valid_auth():
     
-    # def producer_invalid_auth():
+    #def producer_invalid_auth():
         
 
         

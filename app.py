@@ -16,7 +16,7 @@ def create_app(test_config=None):
   AUTH0_CALLBACK_URL = os.environ.get('AUTH0_CALLBACK_URL')
   
   # Uncomment this line when running test_app.py
-  #db_drop_and_create_all_for_local_test()
+  db_drop_and_create_all_for_local_test()
 
   @app.after_request
   def after_request(response):
@@ -28,7 +28,8 @@ def create_app(test_config=None):
 
   #GET /actors
   @app.route("/actors", methods=["GET"])
-  def get_actors():
+  @requires_auth('get: actors')
+  def get_actors(payload):
     actors = Actor.query.all()
     
     formatted_actors = []
@@ -136,7 +137,8 @@ def create_app(test_config=None):
 
   #GET /movies
   @app.route("/movies", methods=["GET"])
-  def get_movies():
+  @requires_auth('get: movies')
+  def get_movies(payload):
     movies = Movie.query.all()
     formatted_movies = []
     for movie in movies:
