@@ -241,6 +241,14 @@ Sample response
 }
 ```
 
+## Local Testing
+
+```bash
+. setup
+python test_app.py
+
+```
+
 
 
 

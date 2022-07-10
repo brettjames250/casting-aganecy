@@ -3,7 +3,7 @@ from flask import Flask, request, abort, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from models import Actor, Movie, setup_db, db_drop_and_create_all_for_local_test
-from auth import requires_auth
+from auth import requires_auth, AuthError
 
 # ----------------------------------------------------------------------------#
 # App Config.
@@ -20,8 +20,8 @@ def create_app(test_config=None):
   AUTH0_CLIENT_ID = os.environ.get('AUTH0_CLIENT_ID')
   AUTH0_CALLBACK_URL = os.environ.get('AUTH0_CALLBACK_URL')
   
-  
-  #db_drop_and_create_all_for_local_test()
+  # Uncomment this line when running test_app.py
+  db_drop_and_create_all_for_local_test()
 
   @app.after_request
   def after_request(response):
@@ -249,6 +249,10 @@ def create_app(test_config=None):
   @app.errorhandler(500)
   def internal_server(error):
     return jsonify({"success": False, "error": 500, "message": "Internal server error"}), 500
+  
+  @app.errorhandler(AuthError)
+  def handle_auth_error(e):
+    return jsonify({"success": False, "error": e.error['code'], "message": e.error['description'],}), e.status_code
   
     
   return app
