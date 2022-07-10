@@ -33,10 +33,16 @@ def get_token_auth_header():
 
 def check_permissions(permission, payload):
     if "permissions" not in payload:
-        abort(400)
+        raise AuthError({
+            "code": "Bad request",
+            "description": "Bad request"
+            }, 400)
 
     if permission not in payload['permissions']:
-        abort(403)
+        raise AuthError({
+            "code": "Unauthorised",
+            "description": "Unauthorised"
+            }, 403)
     return True   
 
 def verify_decode_jwt(token):

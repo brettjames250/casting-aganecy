@@ -10,6 +10,7 @@ from models import setup_db, Actor, Movie
 DIRECTOR_TOKEN = os.environ.get('DIRECTOR_TOKEN')
 ASSISTANT_TOKEN = os.environ.get('ASSISTANT_TOKEN')
 PRODUCER_TOKEN = os.environ.get('PRODUCER_TOKEN')
+INVALID_TOKEN = os.environ.get('INVALID_TOKEN')
 
 def generate_auth_header(token):
     return {
@@ -200,7 +201,7 @@ class UnitTestCase(unittest.TestCase):
     
     ## RBAC TESTS
     
-    def assistant_valid_auth():
+    def test_assistant_valid_auth(self):
         res = self.client().get("/movies", headers=generate_auth_header(ASSISTANT_TOKEN))
         data = json.loads(res.data)
         self.assertEqual(res.status_code, 200)
@@ -210,7 +211,7 @@ class UnitTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 200)
 
         
-    def assistant_invalid_auth():
+    def test_assistant_invalid_auth(self):
         res = self.client().post("/actors", headers=generate_auth_header(ASSISTANT_TOKEN), json=self.test_actor)
         data = json.loads(res.data)
         self.assertEqual(res.status_code, 200)
@@ -220,26 +221,34 @@ class UnitTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 200)
         
     
-    def director_valid_auth():
+    def test_director_valid_auth(self):
+        res = self.client().post("/actors", headers=generate_auth_header(DIRECTOR_TOKEN), json=self.test_actor)
+        data = json.loads(res.data)
+        self.assertEqual(res.status_code, 200)
+        res = self.client().delete("/actors/1", headers=generate_auth_header(DIRECTOR_TOKEN))
+        data = json.loads(res.data)
+        self.assertEqual(res.status_code, 200)
+      
+    def test_director_invalid_auth(self):
+        res = self.client().post("/movies", headers=generate_auth_header(DIRECTOR_TOKEN), json=self.test_movie)
+        data = json.loads(res.data)
+        
+        self.assertEqual(res.status_code, 200)
+        
+    def test_producer_valid_auth(self):
+        res = self.client().post("/movies", headers=generate_auth_header(DIRECTOR_TOKEN), json=self.test_movie)
+        data = json.loads(res.data)
+        self.assertEqual(res.status_code, 200)
+        res = self.client().delete("/movies/1", headers=generate_auth_header(DIRECTOR_TOKEN))
+        data = json.loads(res.data)
+        self.assertEqual(res.status_code, 200)
+        
+    def test_invalid_token(self):
         res = self.client().post("/actors", headers=generate_auth_header(INVALID_TOKEN), json=self.test_actor)
         data = json.loads(res.data)
-        self.assertEqual(res.status_code, 200)
-        res = self.client().delete("/actors/1", headers=generate_auth_header(INVALID_TOKEN))
-        data = json.loads(res.data)
-        self.assertEqual(res.status_code, 200)
-        
-        res = self.client().post("/movies", headers=generate_auth_header(INVALID_TOKEN), json=self.test_movie)
-        data = json.loads(res.data)
-        self.assertEqual(res.status_code, 200)
-        res = self.client().delete("/movies/1", headers=generate_auth_header(INVALID_TOKEN))
-        data = json.loads(res.data)
-        self.assertEqual(res.status_code, 200)
-        
-    # def director_invalid_auth():
+        self.assertEqual(res.status_code, 401)
     
-    # def producer_valid_auth():
-    
-    #def producer_invalid_auth():
+    #def producer_invalid_auth(self):
         
 
         

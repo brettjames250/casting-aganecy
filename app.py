@@ -16,7 +16,7 @@ def create_app(test_config=None):
   AUTH0_CALLBACK_URL = os.environ.get('AUTH0_CALLBACK_URL')
   
   # Uncomment this line when running test_app.py
-  #db_drop_and_create_all_for_local_test()
+  db_drop_and_create_all_for_local_test()
 
   @app.after_request
   def after_request(response):
