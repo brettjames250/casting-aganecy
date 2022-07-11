@@ -1,5 +1,25 @@
 # Udacity Full Stack Web Development - Capstone Project
 
+## Project
+
+This project has been completed as part of the Udacity Full Stack Web Developer Nanodegree program. The context of this application is a casting agency system that manages actors and movies. Users will roles have different permissions attached such as adding movies and actors, updating, deleting and retrieving. The API is backed by a relational database architecture. The following database tables exist:
+
+- Movie
+- Actor
+- actor_movies (This is an association table that facilitates the many-to-many relationship between the Actor and Movies tables)
+
+The application is deployed on Heroku - https://casting-agency-brett-123.herokuapp.com
+
+## Tech Stack
+
+Key technologies used
+
+- Python
+- Flask framework
+- PostgresSQL
+- Heroku
+- Auth0
+
 ## Local environment setup
 
 1. Setup and activate a Python virtual environment. Following steps are using Gitbash CLI
@@ -248,6 +268,60 @@ Sample response
     "success": true
 }
 ```
+
+## Errors
+
+Example errors that can occur during API requests:
+
+### 400 - Bad request
+
+```
+{
+    "success": False,
+    "error": 400,
+    "message": "Bad request"
+}
+```
+
+### 404 - Not found
+
+```
+{
+    "success": False,
+    "error": 404,
+    "message": "Not found"
+}
+```
+
+### 422 - Unprocessable entity
+```
+{
+    "success": False,
+    "error": 422,
+    "message": "Unprocessable entity"
+}
+```
+
+### 500 - Internal server error
+
+```
+{
+    "success": False,
+    "error": 500,
+    "message": "Internal server error"
+}
+```
+
+### 403 - Unauthorised
+
+```
+{
+    "success": False,
+    "error": 403,
+    "message": "Unauthorised"
+}
+```
+
 
 ## Local Testing
 
