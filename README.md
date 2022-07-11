@@ -44,6 +44,18 @@ cd capstone-project
 pip install -r requirements.txt
 ```
 
+## Authentication
+
+The application is authenticated using Auth0. Access token can be generated using the following link:
+
+Token generation - https://casting-agency-brett.eu.auth0.com/authorize?audience=casting-agency&response_type=token&client_id=ROvStzhAFLT1Kxy9SQ86Fq9WTsfbWezV&redirect_uri=http://0.0.0.0:8080
+
+Access tokens must be passed in as an API header on all requests:
+
+```bash
+"Authorization": "Bearer {ACCESS-TOKEN}""
+```
+
 ## Run the application locally
 
 ```bash
