@@ -4,8 +4,15 @@
 
 1. Setup and activate a Python virtual environment. Following steps are using Gitbash CLI
 
+if no python virtul environment previous setup, run this command:
+
 ```bash
-python3 -m venv myvenv
+python -m venv myvenv
+```
+
+If there is already a virtual environment created (a folder named myvenv or similiar). Run the following commands to activate the environment:
+
+```bash
 cd myvenv/Scripts
 . activate
 ```
@@ -13,6 +20,7 @@ cd myvenv/Scripts
 2. Install backend dependencies using PIP (Package Installer for Python). This will install the dependencies within the previously activated virtual environment. Packages will now be installed in myvenv/Lib/site-packages
 
 ```bash
+cd capstone-project
 pip install -r requirements.txt
 ```
 
@@ -242,6 +250,16 @@ Sample response
 ```
 
 ## Local Testing
+
+To run the tests locally, follow these steps:
+
+1. Uncomment line number 19 in app.py. These additional step will create the test database, and relevent tables.
+
+```
+# Uncomment this line when running test_app.py
+#db_drop_and_create_all_for_local_test()
+```
+2. Run the following commands in the git bash CLI. 
 
 ```bash
 . setup
